@@ -45,6 +45,15 @@
         android:layout_marginTop="20dp"
         />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_qt_table_et"
+        android:inputType="textMultiLine"
+        android:minLines="5"
+        android:maxLines="10"
+        />
+
     <!--<ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

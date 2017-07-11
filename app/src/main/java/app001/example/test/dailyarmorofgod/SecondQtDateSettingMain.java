@@ -26,7 +26,9 @@ public class SecondQtDateSettingMain extends Activity {
     private int mMonth;
     private int mDay;
 
-    int [] janMnD = new int  [31];
+    static EditText mShowET;
+
+    /*int [] janMnD = new int  [31];
     int [] febMnD = new int  [29];
     int [] marMnD = new int  [31];
     int [] aprMnD = new int  [30];
@@ -37,7 +39,7 @@ public class SecondQtDateSettingMain extends Activity {
     int [] sepMnD = new int  [30];
     int [] nobMnD = new int  [30];
     int [] octMnD = new int  [31];
-    int [] decMnD = new int  [31];
+    int [] decMnD = new int  [31];*/
 
     // DB 매니저 클래스 참조 변수
     public DailyArmorOfGodDBManager mDBManager;
@@ -57,13 +59,15 @@ public class SecondQtDateSettingMain extends Activity {
             this.mRefDateSettingEt = (EditText)this.findViewById(R.id.date_setting_second_et);
             this.mRefBibleSettingEt = (EditText)this.findViewById(R.id.bible_setting_second_et);
 
+            this.mShowET = (EditText)this.findViewById(R.id.show_qt_table_et);
+
             //  시스템 날짜 가져와서 출력 (date_setting_second_et)
             String tempDate = getDate();
             mRefDateSettingEt.setText(tempDate);
 
-            // setArrayMnDver2
+            /*// setArrayMnDver2
             setArrayMnDver2();
-            log("setArrayMnDver2()");
+            log("setArrayMnDver2()");*/
 
             // DB 매니저 사용
             mDBManager = DailyArmorOfGodDBManager.getInstance(this);
@@ -116,7 +120,7 @@ public class SecondQtDateSettingMain extends Activity {
     }
 // --------------------------------------------------------------------------------------------------------
 
-    // 월, 날짜를 배열로 만들어주는 함수 만들기(2)
+    /*// 월, 날짜를 배열로 만들어주는 함수 만들기(2)
 
     public void setArrayMnDver2() {
         log("setArrayMnDver2 실행");
@@ -183,10 +187,10 @@ public class SecondQtDateSettingMain extends Activity {
                 e.printStackTrace();
             }
 
-    } // setArrayMnDver2
+    } // setArrayMnDver2*/
 
 // --------------------------------------------------------------------------------------------------------
-    // 월&일 배열의 값을 확인하는 함수
+    /*// 월&일 배열의 값을 확인하는 함수
 
     public void logPrintArrayMnD() {
         log("logPrintArrayMnD 실행");
@@ -203,7 +207,7 @@ public class SecondQtDateSettingMain extends Activity {
         log(Arrays.toString(octMnD));
         log(Arrays.toString(nobMnD));
         log(Arrays.toString(decMnD));
-    }
+    }*/
 // --------------------------------------------------------------------------------------------------------
         // log
         public void log(String msg) {
