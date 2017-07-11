@@ -1,0 +1,10 @@
+http://sourceforge.net/projects/sqlitebrowser
+
+// SQLite 큐티 구문 테이블 구상
+- 테이블 이름 : QtDateAndVerse
+
+* 필드
+
+date int(4) primary key
+verse varchar(20) not null
+

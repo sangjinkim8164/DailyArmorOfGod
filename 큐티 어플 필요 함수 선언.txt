@@ -1,0 +1,13 @@
+// (추가) 월 , 일만 가져오는 함수 
+
+public int [] getMnD() {
+
+	getCalendarInfo();
+	
+	String month = Integer.toString(mRefCalendar.get(Calendar.MONTH)+1);
+	
+	String day = Integer.toString(mRefCalendar.get(Calendar.Date));	
+	
+	Int CurrentMnD = Integer.parseInt(month + day);
+	
+}

@@ -1,0 +1,27 @@
+
+// 오늘의 구절 출력 기능
+
+* 배열에 저장
+
+
+* 맵에 저장
+
+예) 날짜 : 
+
+
+
+* sql에 저장
+
+
+
+
+
+// ==============================================================
+
+private static final int[] sDrawables = { R.drawable.wallpaper, R.drawable.wallpaper, R.drawable.wallpaper,
+				R.drawable.wallpaper, R.drawable.wallpaper, R.drawable.wallpaper };
+
+		@Override
+		public int getCount() {
+			return sDrawables.length;
+		}

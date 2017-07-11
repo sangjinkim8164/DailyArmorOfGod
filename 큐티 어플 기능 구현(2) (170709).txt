@@ -1,0 +1,23 @@
+// 말씀 구절 월별로 배열로 만들어서 저장
+
+// (추가) 월 , 일만 가져오는 함수 만들기
+
+// 월 날짜를 배열로 만들어주는 함수 만들기
+- 월 입력 
+-> 배열 0101, 0102 ~ 배열 반환
+
+// ---------------------------
+
+import java.util.HashMap;
+
+public class HashMapJan {
+
+HashMap<String, String> map = new HashMap<String, String>();
+
+map.put("0101", "마 1장");
+map.put("0102", "마 2장");
+
+
+
+
+} // class HashMapExample
