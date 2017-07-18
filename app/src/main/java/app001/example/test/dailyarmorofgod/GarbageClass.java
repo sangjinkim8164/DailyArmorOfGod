@@ -1,23 +1,22 @@
 package app001.example.test.dailyarmorofgod;
 
-
-
 // 안쓰는 명령어 임시 보관
 public class GarbageClass {
 
+// --------------------------------------------------------------------------------------------------------
     //  테이블 삭제
     /*
     mDatabase.execSQL("DROP TABLE QtVerseTable");
     log("drop table");
      */
-
+// --------------------------------------------------------------------------------------------------------
     // 테이블 조회 (컬럼 갯수)
     /*
     mDatabase.execSQL(
             "SELECT COUNT (_date) FROM QtVerseTable AS TOTAL;"
             );
     */
-
+// --------------------------------------------------------------------------------------------------------
     //  테이블 직접 생성 쿼리
     // -> GUI 로 DB 만들어서 바꿔넣는 쪽으로 변경
     /*
@@ -398,9 +397,235 @@ public class GarbageClass {
         log("6");
 
     */
+// --------------------------------------------------------------------------------------------------------
+// 월 배열
+
+    /*int [] janMnD = new int  [31];
+    int [] febMnD = new int  [29];
+    int [] marMnD = new int  [31];
+    int [] aprMnD = new int  [30];
+    int [] mayMnD = new int  [31];
+    int [] junMnD = new int  [30];
+    int [] julMnD = new int  [31];
+    int [] augMnD = new int  [31];
+    int [] sepMnD = new int  [30];
+    int [] nobMnD = new int  [30];
+    int [] octMnD = new int  [31];
+    int [] decMnD = new int  [31];*/
+// --------------------------------------------------------------------------------------------------------
+
+    /*// 데이터베이스가 존재하지만 버전이 다를 때 호출
+ @Override
+ public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+ }
+
+ // 쿼리 함수
+ public void insert(String _query) {
+  SQLiteDatabase db = getWritableDatabase();
+  db.execSQL(_query);
+  db.close();
+ }
+
+ public void update(String _query) {
+  SQLiteDatabase db = getWritableDatabase();
+  db.execSQL(_query);
+  db.close();
+ }
+
+ public void delete(String _query) {
+  SQLiteDatabase db = getWritableDatabase();
+  db.execSQL(_query);
+  db.close();
+ }
+
+ public String PrintData() {
+  SQLiteDatabase db = getReadableDatabase();
+  String str = "";
+
+  Cursor cursor = db.rawQuery("SELECT * FROM QtDateAndVerse", null);
+  while(cursor.moveToNext()) {
+str += cursor.getInt(0) + " :  date " + cursor.getString(1) + "\n"
+  + " : day_verse " + cursor.getInt(2) + " : night_verse " + "\n";
+  }
+  return str;
+
+ } // PrintData()*/
+
+// --------------------------------------------------------------------------------------------------------
+
+    /*// 월, 날짜를 배열로 만들어주는 함수 만들기(2)
+
+    public void setArrayMnDver2() {
+        log("setArrayMnDver2 실행");
+
+        int tempForMon;
+
+            try {
+
+                for(int i = 1; i <= 30; i ++ ) {
+                    String temp = String.format("%02d", i);
+
+                    tempForMon = Integer.parseInt("4" + temp);
+                    aprMnD [i-1] = tempForMon;
+
+                    tempForMon = Integer.parseInt("6" + temp);
+                    junMnD [i-1] = tempForMon;
+
+                    tempForMon = Integer.parseInt("9" + temp);
+                    sepMnD [i-1] = tempForMon;
+
+                    tempForMon = Integer.parseInt("11" + temp);
+                    nobMnD [i-1] = tempForMon;
+
+                } // for
+
+                for(int i = 1; i <= 29; i ++ ) {
+                    String temp = String.format("%02d", i);
+
+                    tempForMon = Integer.parseInt("2" + temp);
+                    febMnD [i-1] = tempForMon;
+                }
+
+                for(int i = 1; i <= 31; i ++ ) {
+                    String temp = String.format("%02d", i);
+
+                    tempForMon = Integer.parseInt("1" + temp);
+                    janMnD [i-1] = tempForMon;
+
+                    tempForMon = Integer.parseInt("3" + temp);
+                    marMnD [i-1] = tempForMon;
+
+                    tempForMon = Integer.parseInt("5" + temp);
+                    mayMnD [i-1] = tempForMon;
+
+                    tempForMon = Integer.parseInt("7" + temp);
+                    julMnD [i-1] = tempForMon;
+
+                    tempForMon = Integer.parseInt("8" + temp);
+                    augMnD [i-1] = tempForMon;
+
+                    tempForMon = Integer.parseInt("10" + temp);
+                    octMnD [i-1] = tempForMon;
+
+                    tempForMon = Integer.parseInt("12" + temp);
+                    decMnD [i-1] = tempForMon;
+
+                } // for
+
+                // 배열 출력해서 확인
+                logPrintArrayMnD();
+                log("logPrintArrayMnD 실행");
+
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+
+    } // setArrayMnDver2*/
+
+    // --------------------------------------------------------------------------------------------------------
+    /*// 월&일 배열의 값을 확인하는 함수
+
+    public void logPrintArrayMnD() {
+        log("logPrintArrayMnD 실행");
+
+        log(Arrays.toString(janMnD));
+        log(Arrays.toString(febMnD));
+        log(Arrays.toString(marMnD));
+        log(Arrays.toString(aprMnD));
+        log(Arrays.toString(mayMnD));
+        log(Arrays.toString(junMnD));
+        log(Arrays.toString(julMnD));
+        log(Arrays.toString(augMnD));
+        log(Arrays.toString(sepMnD));
+        log(Arrays.toString(octMnD));
+        log(Arrays.toString(nobMnD));
+        log(Arrays.toString(decMnD));
+    }*/
+// --------------------------------------------------------------------------------------------------------
 
 
+//    // 월, 날짜를 배열로 만들어주는 함수 만들기
+//
+//    public void setArrayMnD(String mon) {
+//        log("setArrayMnD");
+//
+//        int tempForMon;
+//
+//        // 1. 월을 입력 받기 (int mon)
+//
+//        // 2. 조건 나누기
+//        // (1, 3, 5, 7, 8, 10, 12) -> 31일까지
+//        // (4, 6, 9, 11) -> 30일까지
+//        // (2월은 29일까지)
+//        // 월 별로 배열 반환
+//
+//        if( mon.equals("04") || mon.equals("06") || mon.equals("09") || mon.equals("11") == true ) {
+//
+//            for(int i = 0; i <= 30; i ++ ) {
+//                tempForMon = Integer.parseInt(String.format("%02d", mon+ i));
+//
+//                switch(mon) {
+//                    case "04" :
+//                        aprMnD [i] = tempForMon;
+//                        break;
+//                    case "06" :
+//                        junMnD [i] = tempForMon;
+//                        break;
+//                    case "09" :
+//                        sepMnD [i] = tempForMon;
+//                        break;
+//                    case "11" :
+//                        nobMnD [i] = tempForMon;
+//                        break;
+//                } // switch
+//
+//            } // for
+//
+//        }
+//        else if(mon.equals(02) == true) {
+//            for(int i = 0; i <= 29; i ++ ) {
+//                tempForMon = Integer.parseInt(String.format("%02d", mon+ i));
+//
+//                febMnD [i] = tempForMon;
+//            }
+//        }
+//        else {
+//            for(int i = 0; i <= 31; i ++ ) {
+//                tempForMon = Integer.parseInt(String.format("%02d", mon+ i));
+//
+//                switch(mon) {
+//                    case "01" :
+//                        janMnD [i] = tempForMon;
+//                        break;
+//                    case "03" :
+//                        marMnD [i] = tempForMon;
+//                        break;
+//                    case "05" :
+//                        mayMnD [i] = tempForMon;
+//                        break;
+//                    case "07" :
+//                        julMnD [i] = tempForMon;
+//                        break;
+//                    case "08" :
+//                        augMnD [i] = tempForMon;
+//                        break;
+//                    case "10" :
+//                        octMnD [i] = tempForMon;
+//                        break;
+//                    case "12" :
+//                        decMnD [i] = tempForMon;
+//                        break;
+//                    default :
+//                        log("01~12 사이의 값을 입력하세요");
+//                        break;
+//                } // switch
+//
+//            } // for
+//
+//        } // else
+//
+//    } // setArrayMnD
 
-
+    // --------------------------------------------------------------------------------------------------------
 
 } // class GarbageClass
