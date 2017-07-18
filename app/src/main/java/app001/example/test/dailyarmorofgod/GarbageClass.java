@@ -3,6 +3,52 @@ package app001.example.test.dailyarmorofgod;
 // 안쓰는 명령어 임시 보관
 public class GarbageClass {
 
+/*// --------------------------------------------------------------------------------------------------------
+    // raw 폴더의 파일을 읽어오는 함수
+
+    public void loadFile() {
+        log("loadFile() 실행");
+
+        try {
+
+            InputStream in = getResources().openRawResource(R.raw.insert_sql);
+
+            if(in != null) {
+                InputStreamReader stream = new InputStreamReader(in, "utf-8");
+                BufferedReader buffer = new BufferedReader(stream);
+
+                String readString;
+                ArrayList<String> readArrayList;
+
+                StringBuilder sb = new StringBuilder("");
+                readArrayList = new ArrayList<String>();
+                int i = -1;
+
+                while( (readString=buffer.readLine() ) != null ) {
+                    log("loadFile() while 실행");
+
+                    sb.append(readString);
+                    i ++;
+
+                    readArrayList.add(i, sb.toString());
+                    log("readArrayList.add(i, sb.toString());");
+
+                } // while( )
+
+                in.close();
+                log("in.close();");
+
+                // 읽어온 문자열 출력
+                mShowET.setText(readArrayList.size() +"");
+
+            } // if(in != null)
+
+        } catch (Exception e){
+            log(e.getStackTrace() + "");
+        }
+
+    } // loadFile()*/
+
 // --------------------------------------------------------------------------------------------------------
     //  테이블 삭제
     /*

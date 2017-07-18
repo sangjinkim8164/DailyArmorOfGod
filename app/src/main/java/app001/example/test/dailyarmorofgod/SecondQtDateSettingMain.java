@@ -6,15 +6,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 public class SecondQtDateSettingMain extends Activity {
@@ -72,52 +65,6 @@ public class SecondQtDateSettingMain extends Activity {
     static void setMShowET(String text) {
         SecondQtDateSettingMain.mShowET.setText(text);
     }
-
-/*// --------------------------------------------------------------------------------------------------------
-    // raw 폴더의 파일을 읽어오는 함수
-
-    public void loadFile() {
-        log("loadFile() 실행");
-
-        try {
-
-            InputStream in = getResources().openRawResource(R.raw.insert_sql);
-
-            if(in != null) {
-                InputStreamReader stream = new InputStreamReader(in, "utf-8");
-                BufferedReader buffer = new BufferedReader(stream);
-
-                String readString;
-                ArrayList<String> readArrayList;
-
-                StringBuilder sb = new StringBuilder("");
-                readArrayList = new ArrayList<String>();
-                int i = -1;
-
-                while( (readString=buffer.readLine() ) != null ) {
-                    log("loadFile() while 실행");
-
-                    sb.append(readString);
-                    i ++;
-
-                    readArrayList.add(i, sb.toString());
-                    log("readArrayList.add(i, sb.toString());");
-
-                } // while( )
-
-                in.close();
-                log("in.close();");
-
-                // 읽어온 문자열 출력
-                mShowET.setText(readArrayList.size() +"");
-
-            } // if(in != null)
-
-        } catch (Exception e){
-            log(e.getStackTrace() + "");
-        }
-
-    } // loadFile()*/
 
 // --------------------------------------------------------------------------------------------------------
 

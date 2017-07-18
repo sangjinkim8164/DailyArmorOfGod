@@ -23,7 +23,9 @@ public class DailyArmorOfGodDBManager {
     private SQLiteDatabase mDatabase;
 
     private ArrayList<String> mReadArrayList;
-// --------------------------------------------------------------------------------------------------------
+    private int mnD;
+
+    // --------------------------------------------------------------------------------------------------------
     public static DailyArmorOfGodDBManager getInstance(Context context) {
         log("DailyArmorOfGodDBManager getInstance 생성자 실행");
 
@@ -52,6 +54,7 @@ public class DailyArmorOfGodDBManager {
 
         log("6");
 
+// --------------------------------------------------------------------------------------------------------
         String creatTblSql =
                 "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(_date INTEGER PRIMARY KEY, day_verse TEXT, night_verse TEXT);";
 
@@ -65,6 +68,7 @@ public class DailyArmorOfGodDBManager {
             /*mDatabase.execSQL("DROP TABLE QtVerseTable");
             log("drop table");*/
 
+            // QtVerseTable 생성
             mDatabase.execSQL(creatTblSql);
 
             /*mDatabase.execSQL("INSERT INTO QtVerseTable (_date,day_verse,night_verse) VALUES (1231,'계22장','말라기전체')");
@@ -72,11 +76,13 @@ public class DailyArmorOfGodDBManager {
 
             log("7");
 
+            // insert_sql ArrayList에 넣기
             loadFile();
 
             log("8");
 
-            exeInsertSQL();
+            // insert_sql 쿼리로 입력
+            /*exeInsertSQL();*/
 
             log("9");
 
@@ -89,6 +95,26 @@ public class DailyArmorOfGodDBManager {
         }
 
     } // DailyArmorOfGodDBManager( )
+
+// --------------------------------------------------------------------------------------------------------
+
+    // 시스템 날짜 값과 QtVerseTable의 값을 비교해서 EditText에 값을 출력하는 함수
+    // - public void setMrefBibleET() { }
+
+    public void setMrefBibleET() {
+        log("setMrefBibleET()");
+
+        // getMnD
+        int tempMnD = getMnD();
+
+        // SELECT
+
+
+
+        // mRefBibleSettingEt.setText( );
+
+
+    } // setMrefBibleET()
 
 // --------------------------------------------------------------------------------------------------------
 
@@ -247,6 +273,9 @@ public class DailyArmorOfGodDBManager {
         Log.v("mylog", msg);
     }
 
+    public int getMnD() {
+        return mnD;
+    }
 } // class QtDateAndVerseDBManager
 
 // --------------------------------------------------------------------------------------------------------
