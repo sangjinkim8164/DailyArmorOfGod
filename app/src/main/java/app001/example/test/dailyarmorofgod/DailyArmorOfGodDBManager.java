@@ -2,13 +2,12 @@ package app001.example.test.dailyarmorofgod;
 
 import android.content.Context;
 import android.database.Cursor;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.sql.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class DailyArmorOfGodDBManager {
@@ -63,8 +62,8 @@ public class DailyArmorOfGodDBManager {
             /*mDatabase.execSQL("BEGIN TRANSACTION;");*/
             /*mDatabase.execSQL("COMMIT;");*/
 
-            mDatabase.execSQL("DROP TABLE QtVerseTable");
-            log("drop table");
+            /*mDatabase.execSQL("DROP TABLE QtVerseTable");
+            log("drop table");*/
 
             mDatabase.execSQL(creatTblSql);
 
@@ -88,8 +87,6 @@ public class DailyArmorOfGodDBManager {
         } catch (android.database.SQLException e) {
             log(e.getMessage() + "");
         }
-
-
 
     } // DailyArmorOfGodDBManager( )
 
