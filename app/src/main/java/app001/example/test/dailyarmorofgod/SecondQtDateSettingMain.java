@@ -16,14 +16,14 @@ public class SecondQtDateSettingMain extends Activity {
 
     // xml 태그
     private EditText mRefDateSettingEt;
-    private EditText mRefBibleSettingEt;
+    static EditText mRefBibleSettingEt;
 
     // 날짜 및 시간 보관 변수
-    private Calendar mRefCalendar;
+    static Calendar mRefCalendar;
 
-    private int mYear;
-    private int mMonth;
-    private int mDay;
+    static int mYear;
+    static int mMonth;
+    static int mDay;
 
     static EditText mShowET;
 
@@ -50,6 +50,9 @@ public class SecondQtDateSettingMain extends Activity {
         String tempDate = getDate();
         mRefDateSettingEt.setText(tempDate);
 
+
+        getMnD();
+
         // DB 매니저 사용
         mDBManager = DailyArmorOfGodDBManager.getInstance(this);
 
@@ -69,8 +72,8 @@ public class SecondQtDateSettingMain extends Activity {
 // --------------------------------------------------------------------------------------------------------
 
     // Calendar 클래스에 접근하는 함수
-    public void getCalendarInfo() {
-        log("getCalendarInfo");
+    static void getCalendarInfo() {
+        /*log("getCalendarInfo");*/
         mRefCalendar = Calendar.getInstance();
     }
 // --------------------------------------------------------------------------------------------------------
@@ -93,8 +96,8 @@ public class SecondQtDateSettingMain extends Activity {
 
     // (추가) 월 , 일만 가져오는 함수
 
-    public int getMnD() {
-        log("getMnD");
+    static int getMnD() {
+        /*log("getMnD");*/
         getCalendarInfo();
 
         String month = Integer.toString(mRefCalendar.get(Calendar.MONTH)+1);
@@ -102,10 +105,11 @@ public class SecondQtDateSettingMain extends Activity {
 
         String tempDay = String.format("%02d", day);
         int currentMnD = Integer.parseInt(month + tempDay);
-        log("오늘의 월+일은 " + currentMnD + "");
+        /*log("오늘의 월+일은 " + currentMnD + "");*/
 
         return currentMnD;
     }
+
 // --------------------------------------------------------------------------------------------------------
     // log
     public void log(String msg) {

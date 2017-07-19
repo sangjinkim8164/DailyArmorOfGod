@@ -62,6 +62,11 @@ public class GarbageClass {
             "SELECT COUNT (_date) FROM QtVerseTable AS TOTAL;"
             );
     */
+
+// --------------------------------------------------------------------------------------------------------
+
+    /*mDatabase.execSQL("INSERT INTO QtVerseTable (_date,day_verse,night_verse) VALUES (1231,'계22장','말라기전체')");
+            log("mDatabase.execSQL(\"INSERT INTO QtVerseTable (_date,day_verse,night_verse) VALUES (1231,'계22장','말라기전체');\"); 실행 완료");*/
 // --------------------------------------------------------------------------------------------------------
     //  테이블 직접 생성 쿼리
     // -> GUI 로 DB 만들어서 바꿔넣는 쪽으로 변경

@@ -2,6 +2,7 @@ package app001.example.test.dailyarmorofgod;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -9,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class DailyArmorOfGodDBManager {
 
@@ -16,6 +18,10 @@ public class DailyArmorOfGodDBManager {
     static final String DB_NAME = "DB_DailyArmorOfGod";
     static final String TABLE_NAME= "QtVerseTable";
     static final int DB_VERSION = 1;
+
+    private final String PRIMARY_KEY = "_date";
+    private final String CAND_KEY_1 = "day_verse";
+    private final String CAND_KEY_2 = "night_verse";
 // --------------------------------------------------------------------------------------------------------
     private Context mContext = null;
 
@@ -65,14 +71,11 @@ public class DailyArmorOfGodDBManager {
             /*mDatabase.execSQL("BEGIN TRANSACTION;");*/
             /*mDatabase.execSQL("COMMIT;");*/
 
-            /*mDatabase.execSQL("DROP TABLE QtVerseTable");
-            log("drop table");*/
+            mDatabase.execSQL("DROP TABLE QtVerseTable");
+            log("drop table");
 
             // QtVerseTable 생성
             mDatabase.execSQL(creatTblSql);
-
-            /*mDatabase.execSQL("INSERT INTO QtVerseTable (_date,day_verse,night_verse) VALUES (1231,'계22장','말라기전체')");
-            log("mDatabase.execSQL(\"INSERT INTO QtVerseTable (_date,day_verse,night_verse) VALUES (1231,'계22장','말라기전체');\"); 실행 완료");*/
 
             log("7");
 
@@ -82,13 +85,15 @@ public class DailyArmorOfGodDBManager {
             log("8");
 
             // insert_sql 쿼리로 입력
-            /*exeInsertSQL();*/
+            exeInsertSQL();
 
             log("9");
 
-            query();
+            /*query();*/
 
             log("10");
+
+            setMrefBibleET();
 
         } catch (android.database.SQLException e) {
             log(e.getMessage() + "");
@@ -105,19 +110,52 @@ public class DailyArmorOfGodDBManager {
         log("setMrefBibleET()");
 
         // getMnD
-        int tempMnD = getMnD();
+        int tempMnD = SecondQtDateSettingMain.getMnD();
+        log("***" + tempMnD + "");
 
-        // SELECT
+        // SELECT 조회 쿼리문
+        String tempSelectSQL = "SELECT day_verse FROM " + TABLE_NAME + " WHERE _date=" + " '" + tempMnD + "' "+";";
+
+        try {
+
+            // SELECT rawquery
+            Cursor result = mDatabase.rawQuery(tempSelectSQL, null);
+            log("mDatabase.rawQuery(tempSelectSQL, null); 실행 완료");
+
+            if(result.moveToNext()) {
+                log("맞는 데이터 발견");
+
+                String tempCursorResult = result.getString(0);
+                log(tempCursorResult);
+
+                // mRefBibleSettingEt.setText( );
+                SecondQtDateSettingMain.mRefBibleSettingEt.setText(tempCursorResult);
+
+            }
+            else {
+                log("맞는 데이터가 없음");
+            }
+
+        } catch (SQLException e) {
+            log(e.getMessage());
+        }
 
 
+        /*// result(Cursor 객체) 가 비어 있으면 false 리턴
+        if(result.moveToFirst() ) {
+            QtVerseTableInfo info =
+                    new QtVerseTableInfo(result.getInt(0), result.getString(1), result.getString(3));
 
-        // mRefBibleSettingEt.setText( );
+            result.close();
+            return info;
+
+        } // if*/
+
 
 
     } // setMrefBibleET()
 
 // --------------------------------------------------------------------------------------------------------
-
     // insert 쿼리문을 반복해서 실행하는 함수
 
     public void exeInsertSQL() {
@@ -273,9 +311,6 @@ public class DailyArmorOfGodDBManager {
         Log.v("mylog", msg);
     }
 
-    public int getMnD() {
-        return mnD;
-    }
 } // class QtDateAndVerseDBManager
 
 // --------------------------------------------------------------------------------------------------------

@@ -23,16 +23,18 @@
         android:id="@+id/date_setting_second_et"
         android:textSize="8pt"
         android:hint="2017년  6월 17일"
+        android:gravity="center"
         />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="마태복음 11장 (본문)"
             android:textSize="8pt"
             android:id="@+id/bible_setting_second_et"
             android:layout_marginLeft="20dp"
+            android:gravity="center"
             />
+        <!-- android:hint="마태복음 11장 (본문)"-->
 
     </LinearLayout>
 
