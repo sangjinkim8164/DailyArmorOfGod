@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import android.content.Context;
 import java.util.Calendar;
 
 public class SecondQtDateSettingMain extends Activity {
@@ -16,6 +16,7 @@ public class SecondQtDateSettingMain extends Activity {
 
     // xml 태그
     private EditText mRefDateSettingEt;
+    static Context mContext;
     static EditText mRefBibleSettingEt;
 
     // 날짜 및 시간 보관 변수
@@ -28,8 +29,8 @@ public class SecondQtDateSettingMain extends Activity {
     static EditText mShowET;
 
     // DB 매니저 클래스 참조 변수
+    /*public DailyArmorOfGodDBManager mDBManager;*/
     public DailyArmorOfGodDBManager mDBManager;
-
 // ==============================================================
 
     // onCreate()
@@ -41,35 +42,29 @@ public class SecondQtDateSettingMain extends Activity {
         this.setContentView(R.layout.second_qt_date_setting);
 
         // 주소 가져오기
+
+        mContext = this;
         this.mRefDateSettingEt = (EditText)this.findViewById(R.id.date_setting_second_et);
         this.mRefBibleSettingEt = (EditText)this.findViewById(R.id.bible_setting_second_et);
 
         this.mShowET = (EditText)this.findViewById(R.id.show_qt_table_et);
 
-        //  시스템 날짜 가져와서 출력 (date_setting_second_et)
+        //  시스템 날짜 가져와서 출력
         String tempDate = getDate();
         mRefDateSettingEt.setText(tempDate);
 
-
-        getMnD();
-
         // DB 매니저 사용
-        mDBManager = DailyArmorOfGodDBManager.getInstance(this);
+        DailyArmorOfGodDBManager mDBManager =
+                new DailyArmorOfGodDBManager(mContext);
+
+        // QtVerseTable의 값을 가져와서 출력
+        mDBManager.setMrefBibleET();
 
     } // onCreate
 
 // ==============================================================
 
     // 사용자 정의 함수
-
-// --------------------------------------------------------------------------------------------------------
-
-    // mShowET 에 내용을 출력하는 함수
-    static void setMShowET(String text) {
-        SecondQtDateSettingMain.mShowET.setText(text);
-    }
-
-// --------------------------------------------------------------------------------------------------------
 
     // Calendar 클래스에 접근하는 함수
     static void getCalendarInfo() {
@@ -82,6 +77,7 @@ public class SecondQtDateSettingMain extends Activity {
     public String getDate() {
         log("getDate");
         getCalendarInfo();
+
         // 연도 가져오기
         mYear = mRefCalendar.get(Calendar.YEAR);
         // 월 가져오기
@@ -109,16 +105,16 @@ public class SecondQtDateSettingMain extends Activity {
 
         return currentMnD;
     }
+    // --------------------------------------------------------------------------------------------------------
 
-// --------------------------------------------------------------------------------------------------------
-    // log
-    public void log(String msg) {
+    // Log
+    static void log(String msg) {
         Log.v("mylog", msg);
     }
 
     // toast
-    public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    static void toast(String msg) {
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 // --------------------------------------------------------------------------------------------------------
 

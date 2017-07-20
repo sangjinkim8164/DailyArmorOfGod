@@ -1,10 +1,10 @@
 package app001.example.test.dailyarmorofgod;
 
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -13,131 +13,132 @@ import java.util.ArrayList;
 
 import static app001.example.test.dailyarmorofgod.SecondQtDateSettingMain.log;
 
-public class DailyArmorOfGodDBManager {
+//  내부 OpenHelper 클래스를 가지는 DBManager 2 클래스 ( 기존 Manager 클래스 대체)
+public class DailyArmorOfGodDBManager2 {
 
     // --------------------------------------------------------------------------------------------------------
 
-    private static DailyArmorOfGodDBManager mDbManager;
-    /*private OpenHelper opener;  // DB opener*/
+    private OpenHelper opener;  // DB opener
     private SQLiteDatabase mDatabase;
 
     // --------------------------------------------------------------------------------------------------------
 
-    private Context mContext = null;
+    private Context mContext;
     private ArrayList<String> mReadArrayList;
 
     static final String DB_NAME = "DB_DailyArmorOfGod";
-    static final String TABLE_NAME = "QtVerseTable";
+    static final String TABLE_NAME= "QtVerseTable";
     static final int DB_VERSION = 1;
 
-    /*private final String PRIMARY_KEY = "_date";
-    private final String CAND_KEY_1 = "day_verse";
-    private final String CAND_KEY_2 = "night_verse";*/
     // --------------------------------------------------------------------------------------------------------
 
-    public static DailyArmorOfGodDBManager getInstance(Context context) {
-        log("DailyArmorOfGodDBManager getInstance 생성자 실행");
+    // 생성자
+    public DailyArmorOfGodDBManager2(Context context) {
+        log("DailyArmorOfGodDBManager2() 생성자 실행");
 
-        if (mDbManager == null) {
-            log("1");
-            mDbManager = new DailyArmorOfGodDBManager(context);
-            log("2");
-        }
-        return mDbManager;
+        this.mContext = context;
 
-    } // DailyArmorOfGodDBManager getInstance
+        this.opener = new OpenHelper(mContext, DB_NAME, null, DB_VERSION);
 
+        mDatabase = opener.getWritableDatabase();
+        log("mDatabase = opener.getWritableDatabase();");
+    }
     // --------------------------------------------------------------------------------------------------------
-    DailyArmorOfGodDBManager(Context context) {
-        log("3");
-        mContext = context;
-        log("4");
 
-        // 1. DB Manager를 생성할 때 DB를 생성하고 열기
-        mDatabase =
-                context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
+    // DB and Table opener  클래스
+    private class OpenHelper extends SQLiteOpenHelper {
 
-        log("5");
-
-        // *  테이블 조회
-        searchTable();
-
-        log("6");
-
-// --------------------------------------------------------------------------------------------------------
-        String creatTblSql =
-                "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(_date INTEGER PRIMARY KEY, day_verse TEXT, night_verse TEXT);";
-
-        try {
-
-            // 2. DB에 테이블이 존재하지 않으면 생성
-
-            /*mDatabase.execSQL("BEGIN TRANSACTION;");*/
-            /*mDatabase.execSQL("COMMIT;");*/
-
-            mDatabase.execSQL("DROP TABLE QtVerseTable");
-            log("drop table");
-
-            // QtVerseTable 생성
-            mDatabase.execSQL(creatTblSql);
-
-            log("7");
-
-            // insert_sql ArrayList에 넣기
-            loadFile();
-
-            log("8");
-
-            // insert_sql 쿼리로 입력
-            exeInsertSQL();
-
-            log("9");
-
-            /*query();*/
-
-            log("10");
-
-            setMrefBibleET();
-
-        } catch (SQLException e) {
-            log(e.getMessage() + "");
+        // OpenHelper 클래스 생성자
+        public OpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
+            log("OpenHelper() 생성자 실행");
         }
 
-    } // DailyArmorOfGodDBManager( )
+        /*public OpenHelper(Context context, String name, CursorFactory factory, int version) {
+            super(context, name, null, version);
+        }*/
+        // --------------------------------------------------------------------------------------------------------
+
+        // ***** 생성된 DB 가 없을 때 한 번만 호출됨
+        @Override
+        public void onCreate(SQLiteDatabase mDatabase) {
+            log("onCreate(SQLiteDatabase mDatabase) 실행");
+
+            // 1. DB Manager를 생성할 때 DB를 생성하고 열기
+
+            if(mContext == null) {
+                log("mContext == null");
+            }
+            else {
+                log("mContext != null");
+            }
+
+            mDatabase =
+                    mContext.openOrCreateDatabase(DB_NAME , Context.MODE_PRIVATE, null);
+
+            String creatTblSql =
+                    "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
+                            "(_date INTEGER PRIMARY KEY, day_verse TEXT, night_verse TEXT);";
+
+            try {
+                 /*mDatabase.execSQL("DROP TABLE QtVerseTable");
+                log("drop table");*/
+
+                // QtVerseTable 생성
+                mDatabase.execSQL(creatTblSql);
+                log("mDatabase.execSQL(creatTblSql);");
+
+                // insert_sql ArrayList에 넣기
+                loadFile();
+                log("loadFile();");
+
+                // INSERT 쿼리로 데이터 삽입
+                exeInsertSQL();
+                log("exeInsertSQL();");
+
+            } catch(SQLException e) {
+                log(e.getMessage());
+            }
+        } // onCreate
+
+        // --------------------------------------------------------------------------------------------------------
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        }
+    } // class OpenHelper
 
 // --------------------------------------------------------------------------------------------------------
 
     // 시스템 날짜 값과 QtVerseTable의 값을 비교해서 EditText에 값을 출력하는 함수
 
     public void setMrefBibleET() {
-        log("setMrefBibleET() 실행");
+        log("setMrefBibleET()");
 
         // getMnD
         int tempMnD = SecondQtDateSettingMain.getMnD();
-        /*log("***" + tempMnD + "");*/
+        log("***" + tempMnD + "");
 
         // SELECT 조회 쿼리문
-        String tempSelectSQL =
-                "SELECT day_verse FROM " + TABLE_NAME +
-                        " WHERE _date=" + " '" + tempMnD + "' " + ";";
+        String tempSelectSQL = "SELECT day_verse FROM " + TABLE_NAME + " WHERE _date=" + " '" + tempMnD + "' "+";";
 
         try {
 
-            // SELECT rawQuery
+            // SELECT rawquery
             Cursor result = mDatabase.rawQuery(tempSelectSQL, null);
             log("mDatabase.rawQuery(tempSelectSQL, null); 실행 완료");
 
-            if (result.moveToNext()) {
-                log("해당 데이터 발견");
+            if(result.moveToNext()) {
+                log("맞는 데이터 발견");
 
                 String tempCursorResult = result.getString(0);
                 log(tempCursorResult);
 
-                // EditText에 내용 출력
+                // mRefBibleSettingEt.setText( );
                 SecondQtDateSettingMain.mRefBibleSettingEt.setText(tempCursorResult);
-
-            } else {
-                log("해당 데이터가 없음");
+            }
+            else {
+                log("맞는 데이터가 없음");
             }
 
         } catch (SQLException e) {
@@ -147,6 +148,7 @@ public class DailyArmorOfGodDBManager {
     } // setMrefBibleET()
 
 // --------------------------------------------------------------------------------------------------------
+
     // insert 쿼리문을 반복해서 실행하는 함수
 
     public void exeInsertSQL() {
@@ -161,7 +163,7 @@ public class DailyArmorOfGodDBManager {
         /*mDatabase.execSQL(mReadArrayList.get(1).toString());*/
 
         // mReadArrayList 의 각 배열의 내용을 mDatabase.exeSQL( ); 로 실행
-        for (int i = 0; i < size; i++) {
+        for(int i = 0; i < size; i ++) {
             String temp = mReadArrayList.get(i).toString();
 
             log(temp);
@@ -185,21 +187,21 @@ public class DailyArmorOfGodDBManager {
 
             InputStream in = mContext.getResources().openRawResource(R.raw.insert_sql);
 
-            if (in != null) {
+            if(in != null) {
                 InputStreamReader stream = new InputStreamReader(in, "utf-8");
                 BufferedReader buffer = new BufferedReader(stream);
 
                 String readString;
                 /*StringBuilder sb = new StringBuilder("");*/
 
-                mReadArrayList = new ArrayList<String>();
+                mReadArrayList= new ArrayList<String>();
                 int i = -1;
 
-                while ((readString = buffer.readLine()) != null) {
+                while( (readString=buffer.readLine() ) != null ) {
                     log("loadFile() while 실행");
 
                     /*sb.append(readString);*/
-                    i++;
+                    i ++;
 
                     // 한 줄씩 읽어온 내용을 mReadArrayList 에 저장
                     mReadArrayList.add(i, readString);
@@ -216,7 +218,7 @@ public class DailyArmorOfGodDBManager {
 
             } // if(in != null)
 
-        } catch (Exception e) {
+        } catch (Exception e){
             log(e.getStackTrace() + "");
         }
 
@@ -279,11 +281,11 @@ public class DailyArmorOfGodDBManager {
 
         Cursor c = mDatabase.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
 
-        if (c.moveToFirst()) {
+        if(c.moveToFirst()) {
 
-            for (; ; ) {
+            for(;;) {
                 log("table name : " + c.getString(0));
-                if (!c.moveToNext())
+                if(!c.moveToNext())
                     break;
             }
         }
@@ -292,6 +294,19 @@ public class DailyArmorOfGodDBManager {
         return c;
 
     } // searchTable()
+
 // --------------------------------------------------------------------------------------------------------
 
-} // class QtDateAndVerseDBManager
+    /*mDatabase.execSQL("BEGIN TRANSACTION;");*/
+                /*mDatabase.execSQL("COMMIT;");*/
+                /*query();*/
+                /*  테이블 조회
+                searchTable();*/
+                /*setMrefBibleET();*/
+
+} // class DailyArmorOfGodDBManager2
+
+
+
+
+
